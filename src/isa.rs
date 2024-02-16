@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-type HeapAddr = usize;
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 pub enum Inst {
     Nop,
@@ -22,10 +21,10 @@ pub enum Inst {
     Neg(Reg, Reg),
     Shl(Reg, Reg),
     Shr(Reg, Reg),
-    LoadH(Reg, HeapAddr),
+    LoadH(Reg, Reg),
     LoadS(Reg, Reg),
     StoreS(Reg, Reg),
-    StoreH(Reg, HeapAddr),
+    StoreH(Reg, Reg),
     Jo(Reg),
     Jno(Reg),
     Je(Reg, Reg, Reg),
