@@ -1,4 +1,4 @@
-use crate::isa::Inst;
+use crate::Inst;
 pub fn serde_code(code: &Vec<Inst>) -> Result<Vec<u8>, postcard::Error> {
     postcard::to_allocvec(&code)
 }
@@ -8,8 +8,9 @@ pub fn de_serde_code(code: &[u8]) -> Result<Vec<Inst>, postcard::Error> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::isa::Inst::{Call, Nop};
-    use crate::isa::{Inst, Reg, RegType};
+    use crate::reg::Reg;
+    use crate::Inst::{Call, Nop};
+    use crate::{Inst, RegType};
 
     #[test]
     fn test_serde_code() {
