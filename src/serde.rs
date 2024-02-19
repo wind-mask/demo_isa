@@ -1,7 +1,15 @@
+//! 序列化指令集
 use crate::Inst;
+
+/// 序列化指令
+///
+/// 暂使用postcard序列化指令集
 pub fn serde_code(code: &Vec<Inst>) -> Result<Vec<u8>, postcard::Error> {
     postcard::to_allocvec(&code)
 }
+/// 反序列化指令
+///
+/// 暂使用postcard反序列化指令集
 pub fn de_serde_code(code: &[u8]) -> Result<Vec<Inst>, postcard::Error> {
     postcard::from_bytes(code)
 }
