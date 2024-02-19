@@ -3,35 +3,15 @@
 use enumflags2::bitflags;
 use serde::{Deserialize, Serialize};
 
+pub type UsizeRegType = usize;
+pub type F64RegType = f64;
 /// 寄存器类型
 ///
-///
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+/// 通用寄存器和浮点寄存器
 pub enum Reg {
-    R1,
-    R2,
-    R3,
-    R4,
-    R5,
-    R6,
-    R7,
-    R8,
-    R9,
-    R10,
-    R11,
-    R12,
-    R13,
-    R14,
-    R15,
-    R16,
-}
-
-/*
-pub enum Reg{
-    Usize(usize),
+    Usize(UsizeReg),
     F64(F64Reg),
 }
-*/
 /// 通用寄存器类型
 ///
 /// 通用寄存器
@@ -50,7 +30,6 @@ pub enum UsizeReg {
 ///
 /// 64位浮点寄存器
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-//TODO:分离不同类型寄存器，从而提高指令效率
 pub enum F64Reg {
     F1,
     F2,

@@ -8,7 +8,7 @@ pub enum ISAErr {
     TypeMismatch,
     StackUnderflow,
     InvalidReg,
-    InvalidHeapAddr,
+    InvalidHeapType,
     InvalidStackAddr,
     DivByZero,
     InvalidSysCall,
@@ -25,7 +25,7 @@ pub enum CpuErr {
     InvalidCodeAddr,
     ISAErr(ISAErr),
 }
-
+/// 将`ISAErr`转换为`CpuErr`
 impl From<ISAErr> for CpuErr {
     fn from(e: ISAErr) -> CpuErr {
         CpuErr::ISAErr(e)
