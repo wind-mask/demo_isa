@@ -17,17 +17,4 @@ pub enum ISAErr {
     Halt,
 }
 
-/// CPU errors
-///
-/// 当CPU未能执行指令时，会返回一个`CpuErr`。
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub enum CpuErr {
-    InvalidCodeAddr,
-    ISAErr(ISAErr),
-}
-/// 将`ISAErr`转换为`CpuErr`
-impl From<ISAErr> for CpuErr {
-    fn from(e: ISAErr) -> CpuErr {
-        CpuErr::ISAErr(e)
-    }
-}
+

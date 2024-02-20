@@ -1,7 +1,4 @@
-use crate::reg::Flags;
 use ::serde::{Deserialize, Serialize};
-use enumflags2::BitFlags;
-use err::{CpuErr, ISAErr};
 use reg::{F64Reg, F64RegType, UsizeReg, UsizeRegType};
 
 pub mod err;
@@ -94,56 +91,9 @@ pub enum RegType {
     F64(F64RegType),
 }
 
-/// 用于表示内存地址
-pub type CodeAddr = UsizeRegType;
-/// 用于表示栈地址
-pub type StackAddr = UsizeRegType;
 
-/// 堆上对象应实现的trait
-///
-/// 暂时用于将堆上对象转换为寄存器类型
-pub trait HeapObjRuner {
-    fn get_reg_type(&self) -> Result<RegType, ISAErr>;
-    fn get_u8_vec(&self) -> &[u8];
-}
 
-/// 内存应实现的trait
-///
-/// 用于模拟内存的操作
-pub trait MemoryRuner {
-    fn clear_heap(&mut self);
-    fn clear_stack(&mut self);
-    fn clear_code(&mut self);
-    fn get_heap_u_type(&mut self, addr: UsizeRegType) -> Result<UsizeRegType, ISAErr>;
-    fn get_heap_f_type(&mut self, addr: UsizeRegType) -> Result<F64RegType, ISAErr>;
-    fn set_heap(&mut self, addr: UsizeRegType, val: RegType);
-    fn get_stack(&self, bp: StackAddr, addr: StackAddr) -> Result<RegType, ISAErr>;
-    fn set_stack(&mut self, bp: StackAddr, addr: StackAddr, val: RegType) -> Result<(), ISAErr>;
-    fn push_stack(&mut self, val: RegType);
-    fn pop_stack(&mut self) -> Result<RegType, ISAErr>;
-    fn get_stack_top_addr(&self) -> StackAddr;
-    fn drop_stack_bp(&mut self, bp: StackAddr);
-    fn fetch_code(&self, addr: CodeAddr) -> Result<Inst, CpuErr>;
-    fn push_code_vec(&mut self, code: Vec<Inst>);
-    fn push_stack_vec(&mut self, stack: Vec<RegType>);
-}
-
-/// ISA执行器应实现的trait
-///
-/// 实现了该trait的结构体可以执行指令集
-pub trait ISARuner {
-    type M: MemoryRuner;
-    fn run_inst(&mut self, inst: Inst, mem: &mut Self::M) -> Result<(), ISAErr>;
-    fn get_u_reg(&self, reg: UsizeReg) -> UsizeRegType;
-    fn get_f_reg(&self, reg: F64Reg) -> F64RegType;
-    fn get_mut_u_reg(&mut self, reg: UsizeReg) -> &mut UsizeRegType;
-    fn get_mut_f_reg(&mut self, reg: F64Reg) -> &mut F64RegType;
-    fn set_u_reg(&mut self, reg: UsizeReg, val: UsizeRegType);
-    fn set_f_reg(&mut self, reg: F64Reg, val: F64RegType);
-    fn get_pc(&self) -> CodeAddr;
-    fn set_pc(&mut self, pc: CodeAddr);
-    fn get_bp(&self) -> StackAddr;
-    fn set_bp(&mut self, bp: StackAddr);
-    fn get_flags(&self) -> BitFlags<Flags>;
-    fn set_flags(&mut self, flags: BitFlags<Flags>);
+pub trait VmRunner {
+    type VmErr;
+    fn run(&mut self,code: &[Inst])->Result<(),Self::VmErr>;
 }

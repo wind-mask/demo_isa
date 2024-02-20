@@ -42,7 +42,7 @@ pub enum F64Reg {
 }
 /// 标志
 ///
-/// 用于标志CPU的状态
+/// 用于标志的状态
 #[bitflags]
 #[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq)]
